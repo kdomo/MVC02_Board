@@ -15,10 +15,10 @@
 	<div class="container">
 		<div class="row mb-4">
 			<div class="col-8 mb-3">
-				<input type="text" class="form-control" id="idInput" name="idInput" placeholder="아이디" value="${idInput}">
+				<input type="text" class="form-control" id="id" name="id" placeholder="아이디" value="${id}">
 			</div>
 			<div class="col-4 mb-3">
-				<button type="submit" class="btn btn-dark col-12" id="btn_check">아이디 확인</button>
+				<button type="submit" class="btn btn-dark col-12" id="btn_check">중복 확인</button>
             </div>
 		</div>
 		<div class="row mb-4">
@@ -48,7 +48,7 @@
 	let rs = document.getElementById("rs");
 	let btn_submit = document.getElementById("btn_submit");
 	let btn_back = document.getElementById("btn_back");
-	let idInput = document.getElementById("idInput");
+	let id = document.getElementById("id");
 	
 	if(rs.innerHTML == "사용이 가능한 아이디입니다."){
 		rs.style.color = "green";
@@ -61,8 +61,11 @@
 		self.close();
 	})
 	btn_submit.addEventListener("click",function(){
-		opener.document.signupForm.id.value = idInput.value;
+		opener.document.signupForm.id.value = id.value;
 		opener.document.signupForm.id.disabled = true;
+		$(opener.document).find("#idConfirm").html("사용할 수 있는 ID 입니다.");
+		$(opener.document).find("#idConfirm").css("color","green");
+		$(opener.document).find("#id").css("border","2px solid green");
 		self.close();
 	})
 </script>

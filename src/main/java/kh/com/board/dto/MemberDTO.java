@@ -1,5 +1,7 @@
 package kh.com.board.dto;
 
+import java.text.SimpleDateFormat;
+
 public class MemberDTO {
 
 	private String id;
@@ -11,14 +13,19 @@ public class MemberDTO {
 	
 	public MemberDTO() {}
 	
-	public MemberDTO(String id, String password, String nickname, String phone, String address, String signup_date) {
+	public MemberDTO(String id, String password, String nickname, String phone, String address, long signup_date) {
 		super();
 		this.id = id;
 		this.password = password;
 		this.nickname = nickname;
 		this.phone = phone;
 		this.address = address;
-		this.signup_date = signup_date;
+		this.signup_date = toStringDate(signup_date);
+	}
+	
+	public String toStringDate(long date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		return sdf.format(date);
 	}
 	
 	public String getId() {
@@ -54,8 +61,8 @@ public class MemberDTO {
 	public String getSignup_date() {
 		return signup_date;
 	}
-	public void setSignup_date(String signup_date) {
-		this.signup_date = signup_date;
+	public void setSignup_date(long signup_date) {
+		this.signup_date = toStringDate(signup_date);
 	}
 	
 	

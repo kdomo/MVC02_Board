@@ -11,6 +11,9 @@
 	rel="stylesheet"
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.6.0.js"
+	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+	crossorigin="anonymous"></script>
 <style>
   .container {
             width: 500px;
@@ -31,18 +34,18 @@
 </head>
 <body>
 	 <div class="container">
-		<form action=".do" method="post" id="loginForm">
+		<form action="${pageContext.request.contextPath}/loginProc.mem" method="post" id="loginForm">
 			<div class="row">
 				<h1 class="col-12">Board</h1>
 			</div>
 			<div class="row">
 				<div class="col-12 mb-3">
-					<input type="text" class="form-control" id="id" placeholder="아이디">
+					<input type="text" class="form-control" id="id" name="id" placeholder="아이디">
 				</div>
 			</div>
 			<div class="row">
 				<div class="mb-3">
-					<input type="password" class="form-control" id="pw"
+					<input type="password" class="form-control" id="password" name="password"
 						placeholder="비밀번호">
 				</div>
 			</div>
@@ -53,7 +56,7 @@
 			</div>
 			<div class="row">
                 <div class="col-6 join">
-                    <a href="/signupMove.mem">회원가입</a>
+                    <a href="${pageContext.request.contextPath}/signupMove.mem">회원가입</a>
                 </div>
                 <div class="col-6 find">
                     <a href="">아이디</a>/<a href="">비밀번호 찾기</a>
@@ -61,6 +64,16 @@
             </div>
 		</form>
 	</div>
-
+<script>
+	$(function(){
+		$('#btn_login').on('click',function(){
+			if( ($('#id').val()=="") || ($('#password').val()="")){
+				alert("아이디 혹은 비밀번호를 입력해주세요.");
+				return;
+			}
+			$('#loginForm').submit();
+		});
+	})
+</script>
 </body>
 </html>
