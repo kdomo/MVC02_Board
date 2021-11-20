@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import kh.com.board.dao.MemberDAO;
 import kh.com.board.dto.MemberDTO;
+import kh.com.board.utils.EncryptionUtils;
 
 @WebServlet("*.mem")
 public class MemberController extends HttpServlet {
@@ -66,7 +67,7 @@ public class MemberController extends HttpServlet {
 			
 			System.out.println(id +" : "+ password +" : "+ nickname +" : "+ phone +" : "+ address);
 			MemberDAO dao = MemberDAO.getInstance();
-			int rs = dao.insert(new MemberDTO(id,password,nickname,phone,address,System.currentTimeMillis()));
+			int rs = dao.insert(new MemberDTO(id,EncryptionUtils.getSHA512(password),nickname,phone,address,System.currentTimeMillis()));
 			if(rs!=-1) response.sendRedirect("/");
 		} else if(cmd.equals("/loginProc.mem")) { //로그인페이지에서 로그인버튼을 눌렀을때
 			String id = request.getParameter("id");
