@@ -67,7 +67,7 @@
 <script>
 	$(function(){
 		$('#btn_login').on('click',function(){
-			if( ($('#id').val()=="") || ($('#password').val()="")){
+			if( ($('#id').val()=="") || ($('#password').val()=="")){
 				alert("아이디 혹은 비밀번호를 입력해주세요.");
 				return;
 			}

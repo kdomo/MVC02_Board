@@ -21,7 +21,8 @@
 }
 
 .header {
-	margin-bottom: 60px;
+	margin-top: 60px;
+	margin-bottom: 40px;
 }
 
 .foot {
