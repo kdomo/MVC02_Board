@@ -77,4 +77,25 @@ public class MemberDAO {
 		}
 		return false;
 	}
+	
+	public boolean login(String id,String password) {
+		String sql = "select * from tbl_member where id=? AND password=?";
+		
+		try(Connection con = this.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);){
+			
+			pstmt.setString(1, id);
+			pstmt.setString(2, password);
+			
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return true;
+			}else {
+				return false;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

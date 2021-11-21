@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +35,7 @@
 <body>
 	<div class="container">
 			<div class="row header">
-				<h1 class="col-12">[]님 환영합니다.</h1>
+				<h1 class="col-12">${id}님 환영합니다.</h1>
 			</div>
 			<div class="row foot">
 				<div class="col-12 col align-self-start divModify">
@@ -48,7 +49,11 @@
 	</div>
 
 	<script>
-	
+	$(function(){
+		$('#btn_mypage').on('click',function(){
+			location.href = "/mypageMove.mem";
+		})
+	})
 	</script>
 
 

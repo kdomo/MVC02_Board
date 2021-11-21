@@ -65,11 +65,11 @@ p {
 				</div>
 				<div class="col-4 mb-3">
 					<input type="text" class="form-control" id="phone2" name="phone2"
-						placeholder="">
+						placeholder="" readonly>
 				</div>
 				<div class="col-4 mb-3">
 					<input type="text" class="form-control" id="phone3" name="phone3"
-						placeholder="">
+						placeholder="" readonly>
 				</div>
 				<div class="row d-none">
 				<input type="text" class="form-control" id="phone" name="phone">
@@ -78,29 +78,29 @@ p {
 			<div class="row">
 				<div class="col-6 mb-3">
 					<input type="text" id="postcode" placeholder="우편번호" name="postcode"
-						class="form-control">
+						class="form-control" readonly>
 				</div>
 				<div class="col-6 mb-3">
 					<input type="button" onclick="Postcode()" value="우편번호 찾기"
-						class="btn btn-dark col-12">
+						class="btn btn-dark col-12" id="btn_post" disabled>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-12 mb-3">
 					<input type="text" class="form-control" id="roadAddress"
-						name="roadAddress" placeholder="도로명주소">
+						name="roadAddress" placeholder="도로명주소" readonly>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-6 mb-3">
 					<input type="text" class="form-control" id="detailAddress"
-						name="detailAddress" placeholder="상세주소">
+						name="detailAddress" placeholder="상세주소" readonly>
 				</div>
 				<div class="col-6 mb-3">
 					<input type="text" class="form-control" id="extraAddress"
-						name="extraAddress" placeholder="읍/면/동">
+						name="extraAddress" placeholder="읍/면/동" readonly>
 				</div>
-				<input type="text" class="form-control d-none" id="address" name="address">
+				<input type="text" class="form-control d-none" id="address" name="address" readonly>
 			</div>
 			<div class="row foot">
 				<div class="col-12 col align-self-start divModify">
@@ -124,11 +124,34 @@ p {
 		$('#btn_modify').on('click',function(){ //수정 버튼을 누르면
 			$('.divModify').css("display","none"); //홈으로 , 수정 버튼이 사라지고
 			$('.divSubmit').css("display","block"); // 취소 , 완료 버튼이 나타난다
+			$('#nickname').attr("readonly",false);
+			$('#phone1').attr("disabled",false);
+			$('#phone2').attr("readonly",false);
+			$('#phone3').attr("readonly",false);
+			$('#postcode').attr("readonly",false);
+			$('#btn_post').attr("disabled",false);
+			$('#roadAddress').attr("readonly",false);
+			$('#detailAddress').attr("readonly",false);
+			$('#extraAddress').attr("readonly",false);
 		});
 		
 		$('#btn_cancel').on('click',function(){ //취소 버튼을 누르면
 			$('.divSubmit').css("display","none"); // 취소 , 완료 버튼이 사라지고
+			//readonly가 다시걸리게끔
 			$('.divModify').css("display","block"); //홈으로 , 수정 버튼이 나타난다.
+			$('#nickname').attr("readonly",true);
+			$('#phone1').attr("disabled",true);
+			$('#phone2').attr("readonly",true);
+			$('#phone3').attr("readonly",true);
+			$('#postcode').attr("readonly",true);
+			$('#btn_post').attr("disabled",true);
+			$('#roadAddress').attr("readonly",true);
+			$('#detailAddress').attr("readonly",true);
+			$('#extraAddress').attr("readonly",true);
+		});
+		
+		$('#btn_back').on('click',function(){
+			location.href = "/index2Move.mem";
 		});
 	});
 //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
