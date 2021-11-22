@@ -70,11 +70,16 @@ padding:6px;
 									function() {
 										location.href = "${pageContext.request.contextPath}/mypageMove.mem";
 									});
+					
 					$('#btn_withdraw').on('click',function(){
 						let rs = confirm("정말 탈퇴하시겠습니까?");
 						if(rs){
 							location.href = "${pageContext.request.contextPath}/wirhdrawProc.mem";
 						}
+					});
+					
+					$('#btn_board').on('click',function(){
+						
 					});
 				})
 			</script>
