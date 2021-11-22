@@ -1,7 +1,6 @@
 package kh.com.board.controller;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import kh.com.board.dao.MemberDAO;
 import kh.com.board.dto.MemberDTO;
@@ -31,9 +31,11 @@ public class MemberController extends HttpServlet {
 	private void actionDo(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
+		MemberDAO dao = MemberDAO.getInstance();
 		String uri = request.getRequestURI();
 		String ctxPath = request.getContextPath();
 		String cmd = uri.substring(ctxPath.length());
+		HttpSession session = request.getSession();
 		System.out.println(cmd);
 
 		if (cmd.equals("/signupMove.mem")) {
@@ -46,7 +48,6 @@ public class MemberController extends HttpServlet {
 
 		} else if (cmd.equals("/idCheckProc.mem")) {
 			String id = request.getParameter("id");
-			MemberDAO dao = MemberDAO.getInstance();
 			boolean rs = dao.idCheck(id);
 
 			RequestDispatcher rd = request.getRequestDispatcher("/member/idCheckPopup.jsp");
@@ -66,7 +67,6 @@ public class MemberController extends HttpServlet {
 			String address = request.getParameter("address");
 
 			System.out.println(id + " : " + password + " : " + nickname + " : " + phone + " : " + address);
-			MemberDAO dao = MemberDAO.getInstance();
 			int rs = dao.insert(new MemberDTO(id, EncryptionUtils.getSHA512(password), nickname, phone, address,
 					System.currentTimeMillis()));
 			if (rs != -1)
@@ -74,23 +74,49 @@ public class MemberController extends HttpServlet {
 		} else if (cmd.equals("/loginProc.mem")) { // 로그인페이지에서 로그인버튼을 눌렀을때
 			String id = request.getParameter("id");
 			String password = request.getParameter("password");
-			MemberDAO dao = MemberDAO.getInstance();
 			boolean rs = dao.login(id, EncryptionUtils.getSHA512(password));
-			
-			if(rs) {
+
+			if (rs) {
 				System.out.println("로그인 성공");
-				RequestDispatcher rd = request.getRequestDispatcher("/member/index2.jsp");
-				request.setAttribute("id", id);
-				rd.forward(request, response);
-			}else {
-				System.out.println("로그인 실패");
+				session.setAttribute("loginSession", id);
 				response.sendRedirect("/");
+			} else {
+				System.out.println("로그인 실패");
+				RequestDispatcher rd = request.getRequestDispatcher("/");
+				request.setAttribute("rs", "fail");
+				rd.forward(request, response);
+
 			}
+
+		} else if (cmd.equals("/logoutProc.mem")) {
+			System.out.println("로그아웃");
+			session.removeAttribute("loginSession");
+			response.sendRedirect("/");
+		} else if (cmd.equals("/mypageMove.mem")) {
+			String id = (String) session.getAttribute("loginSession");
+			MemberDTO dto = dao.selectById(id);
+			if (dto != null) {
+				RequestDispatcher rd = request.getRequestDispatcher("/member/myPage.jsp");
+				request.setAttribute("dto", dto);
+				rd.forward(request, response);
+			}
+		} else if (cmd.equals("/wirhdrawProc.mem")) {
+			String id = (String) session.getAttribute("loginSession");
+			System.out.println("회원탈퇴 아이디 : " + id);
+			int rs = dao.deleteById(id);
+			if (rs == -1) {
+				response.sendRedirect("/");
+				session.invalidate();
+			}
+		} else if (cmd.equals("/modifyInfoProc.mem")) {
+			String nickname = request.getParameter("nickname");
+			String address = request.getParameter("address");
+			String phone = request.getParameter("phone");
 			
-		} else if(cmd.equals("/mypageMove.mem")) {
-			response.sendRedirect("/member/myPage.jsp");
-		} else if(cmd.equals("/index2Move.mem")) {
-			response.sendRedirect("/member/index2.jsp");
+			System.out.println("nickname : "+nickname);
+			System.out.println("address : "+address);
+			System.out.println("phone : "+phone);
+			
 		}
 	}
 }

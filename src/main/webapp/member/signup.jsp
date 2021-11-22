@@ -345,7 +345,7 @@ p {
 					extraAddressNull == true
 					){
 					$('#phone').val($('#phone1').val()+$('#phone2').val()+$('#phone3').val());
-					$('#address').val($('#roadAddress').val()+" "+$('#detailAddress').val()+$('#extraAddress').val());
+					$('#address').val($('#postcode').val() +" "+$('#roadAddress').val()+" "+$('#detailAddress').val()+$('#extraAddress').val());
 					$('#id').attr("disabled",false);
 					$('#signupForm').submit();
 				}else{
