@@ -43,7 +43,7 @@ padding:6px;
 		<c:when test="${!empty loginSession}">
 			<div class="container">
 				<div class="row header">
-					<h1 class="col-12">${loginSession}님환영합니다.</h1>
+					<h1 class="col-12">${loginSession.get('nickname')} 님환영합니다.</h1>
 				</div>
 				<div class="row">
 					<div class="col-12">
@@ -79,7 +79,7 @@ padding:6px;
 					});
 					
 					$('#btn_board').on('click',function(){
-						
+							location.href = "${pageContext.request.contextPath}/boardMove.bd";
 					});
 				})
 			</script>

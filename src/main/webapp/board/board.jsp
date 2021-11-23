@@ -51,18 +51,27 @@ tr {
 			</div>
 		</div>
 		<table class="table">
-			<tr>
-				<th>글번호</th>
-				<th>제목</th>
-				<th>글쓴이</th>
-				<th>작성일</th>
-			</tr>
-			<tr>
-				<td>1</td>
-				<td>비오는 월요일~</td>
-				<td>MonMon</td>
-				<td>2020-11-10</td>
-			</tr>
+			<thead>
+				<tr>
+					<th>글번호</th>
+					<th>제목</th>
+					<th>글쓴이</th>
+					<th>작성일</th>
+					<th>조회수</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${list}" var="board">
+					<tr>
+						<td>${board.getSeq()}</td>
+						<td>${board.getTitle()}</td>
+						<td>${board.getWriter()}</td>
+						<td>${board.getWritten_date()}</td>
+						<td>${board.getView_count()}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+
 		</table>
 		<div class="footer row">
 			<div class="col-12">
@@ -76,13 +85,19 @@ tr {
 			$('#btn_home').on('click', function() {
 				location.href = "${pageContext.request.contextPath}/";
 			});
-			$('#btn_logout').on('click',function() {
-				location.href = "${pageContext.request.contextPath}/logoutProc.mem";
-			});
-			$('#btn_write').on('click',function(){
-				location.href = "${pageContext.request.contextPath}/writeMove.bd";
-			});
-			
+			$('#btn_logout')
+					.on(
+							'click',
+							function() {
+								location.href = "${pageContext.request.contextPath}/logoutProc.mem";
+							});
+			$('#btn_write')
+					.on(
+							'click',
+							function() {
+								location.href = "${pageContext.request.contextPath}/writeMove.bd";
+							});
+
 		});
 	</script>
 </body>

@@ -22,7 +22,7 @@ public class MemberDAO {
 		bds.setUrl(url);
 		bds.setUsername(username);
 		bds.setPassword(password);
-		bds.setInitialSize(30);
+		bds.setInitialSize(200);
 	}
 
 	public static MemberDAO getInstance() {
@@ -132,5 +132,24 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public int modifyById(String id,String nickname,String address,String phone) {
+		String sql = "update tbl_member set nickname=?,address=?,phone=? where id=?";
+
+		try (Connection con = this.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql);) {
+
+			pstmt.setString(1, nickname);
+			pstmt.setString(2, address);
+			pstmt.setString(3, phone);
+			pstmt.setString(4, id);
+
+			int rs = pstmt.executeUpdate();
+			if (rs != 0)
+				return rs;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 }

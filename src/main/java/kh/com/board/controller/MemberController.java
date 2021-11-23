@@ -1,6 +1,7 @@
 package kh.com.board.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -76,9 +77,17 @@ public class MemberController extends HttpServlet {
 			String password = request.getParameter("password");
 			boolean rs = dao.login(id, EncryptionUtils.getSHA512(password));
 
-			if (rs) {
+			if (rs) {//로그인 성공 시
+				MemberDTO dto = dao.selectById(id);
+				
+				HashMap<String,String> map = new HashMap<String,String>();
+				map.put("id", id);
+				map.put("nickname", dto.getNickname());
+				
+				
+				
 				System.out.println("로그인 성공");
-				session.setAttribute("loginSession", id);
+				session.setAttribute("loginSession", map);
 				response.sendRedirect("/");
 			} else {
 				System.out.println("로그인 실패");
@@ -93,7 +102,8 @@ public class MemberController extends HttpServlet {
 			session.removeAttribute("loginSession");
 			response.sendRedirect("/");
 		} else if (cmd.equals("/mypageMove.mem")) {
-			String id = (String) session.getAttribute("loginSession");
+			HashMap<String,String> map = (HashMap) session.getAttribute("loginSession");
+			String id = map.get("id");
 			MemberDTO dto = dao.selectById(id);
 			if (dto != null) {
 				RequestDispatcher rd = request.getRequestDispatcher("/member/myPage.jsp");
@@ -101,7 +111,8 @@ public class MemberController extends HttpServlet {
 				rd.forward(request, response);
 			}
 		} else if (cmd.equals("/wirhdrawProc.mem")) {
-			String id = (String) session.getAttribute("loginSession");
+			HashMap<String,String> map = (HashMap) session.getAttribute("loginSession");
+			String id = map.get("id");
 			System.out.println("회원탈퇴 아이디 : " + id);
 			int rs = dao.deleteById(id);
 			if (rs == -1) {
@@ -109,6 +120,8 @@ public class MemberController extends HttpServlet {
 				session.invalidate();
 			}
 		} else if (cmd.equals("/modifyInfoProc.mem")) {
+			HashMap<String,String> map = (HashMap) session.getAttribute("loginSession");
+			String id = map.get("id");
 			String nickname = request.getParameter("nickname");
 			String address = request.getParameter("address");
 			String phone = request.getParameter("phone");
@@ -116,6 +129,11 @@ public class MemberController extends HttpServlet {
 			System.out.println("nickname : "+nickname);
 			System.out.println("address : "+address);
 			System.out.println("phone : "+phone);
+			
+			int rs = dao.modifyById(id,nickname,address,phone);
+			if(rs != -1) {
+				response.sendRedirect("/mypageMove.mem");
+			}
 			
 		}
 	}
