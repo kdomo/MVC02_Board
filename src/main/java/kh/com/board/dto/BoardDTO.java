@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class BoardDTO {
 	
-	private int seq;
+	private int seq_board;
 	private String title;
 	private String content;
 	private String writer;
@@ -22,10 +22,10 @@ public class BoardDTO {
 		this.writer_id = writer_id;
 	}
 	
-	public BoardDTO(int seq, String title, String content, String writer, String writer_id, Date written_date,
+	public BoardDTO(int seq_board, String title, String content, String writer, String writer_id, Date written_date,
 			int view_count) {
 		super();
-		this.seq = seq;
+		this.seq_board = seq_board;
 		this.title = title;
 		this.content = content;
 		this.writer = writer;
@@ -34,11 +34,11 @@ public class BoardDTO {
 		this.view_count = view_count;
 	}
 
-	public int getSeq() {
-		return seq;
+	public int getSeq_board() {
+		return seq_board;
 	}
-	public void setSeq(int seq) {
-		this.seq = seq;
+	public void setSeq_board(int seq_board) {
+		this.seq_board = seq_board;
 	}
 	public String getTitle() {
 		return title;

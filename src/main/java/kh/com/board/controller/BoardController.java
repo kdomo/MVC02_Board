@@ -44,10 +44,12 @@ public class BoardController extends HttpServlet {
 			response.sendRedirect("/board/write.jsp");
 		} else if(cmd.equals("/boardMove.bd")) {
 			ArrayList<BoardDTO> list = dao.selectAll();
+			if(list!=null) {
+				request.setAttribute("list", list);
+				RequestDispatcher rd = request.getRequestDispatcher("/board/board.jsp");
+				rd.forward(request, response);
+			}
 			
-			request.setAttribute("list", list);
-			RequestDispatcher rd = request.getRequestDispatcher("/board/board.jsp");
-			rd.forward(request, response);
 		} else if(cmd.equals("/writeProc.bd")) {
 			HashMap<String,String> map = (HashMap) session.getAttribute("loginSession");
 			String id = map.get("id");
@@ -58,6 +60,30 @@ public class BoardController extends HttpServlet {
 			int rs = dao.write(new BoardDTO(title,content,nickname,id));
 			if(rs != -1) {
 				response.sendRedirect("/boardMove.bd");
+			}
+		} else if(cmd.equals("/detailViewMove.bd")) {
+			int seq_board = Integer.parseInt(request.getParameter("seq_board"));
+			int rs = dao.updateView_count(seq_board);
+			BoardDTO dto = dao.selectBySeq(seq_board);
+			if(dto!=null) {
+				request.setAttribute("dto", dto);
+				RequestDispatcher rd = request.getRequestDispatcher("/board/detailView.jsp");
+				rd.forward(request, response);
+			}
+		} else if(cmd.equals("/deleteProc.bd")) {
+			int seq_board = Integer.parseInt(request.getParameter("seq_board"));
+			int rs = dao.deleteBySeq(seq_board);
+			if(rs != -1) {
+				response.sendRedirect("/boardMove.bd");
+			}
+		} else if(cmd.equals("/modifyProc.bd")) {
+			int seq_board = Integer.parseInt(request.getParameter("seq_board"));
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			
+			int rs = dao.modifyBySeq(seq_board,title,content);
+			if(rs != -1) {
+				response.sendRedirect("/detailViewMove.bd?seq_board="+seq_board);
 			}
 		}
 	}

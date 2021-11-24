@@ -83,4 +83,77 @@ public class BoardDAO {
 		return null;
 		
 	}
+	
+	public BoardDTO selectBySeq(int seq){
+		String sql = "select * from tbl_board where seq_board = ?";
+		try( Connection con = this.getConnection();
+			 PreparedStatement pstmt = con.prepareStatement(sql);){
+			
+			pstmt.setInt(1, seq);
+			ResultSet rs = pstmt.executeQuery();
+			
+			
+			if(rs.next()) {
+				BoardDTO dto = new BoardDTO(seq,rs.getString("title"),rs.getString("content"),rs.getString("writer"),rs.getString("writer_id"),rs.getDate("written_date"),rs.getInt("view_count"));
+				return dto;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+	
+	public int deleteBySeq(int seq) {
+		String sql = "delete from tbl_board where seq_board=?";
+
+		try (Connection con = this.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql);) {
+
+			pstmt.setInt(1, seq);
+
+			int rs = pstmt.executeUpdate();
+			if (rs != 0)
+				return rs;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
+	public int modifyBySeq(int seq,String title,String content) {
+		String sql="update tbl_board set title=?,content=? where seq_board=?";
+		
+		try (Connection con = this.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql);) {
+
+			pstmt.setString(1, title);
+			pstmt.setString(2, content);
+			pstmt.setInt(3, seq);
+
+			int rs = pstmt.executeUpdate();
+			if (rs != 0)
+				return rs;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+		
+	}
+	
+	public int updateView_count(int seq) {
+		String sql="update tbl_board set view_count = view_count+1 where seq_board=?";
+		
+		try (Connection con = this.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql);) {
+
+			pstmt.setInt(1, seq);
+
+			int rs = pstmt.executeUpdate();
+			if (rs != 0)
+				return rs;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+		
+	}
+	
 }

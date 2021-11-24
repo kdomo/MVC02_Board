@@ -63,8 +63,8 @@ tr {
 			<tbody>
 				<c:forEach items="${list}" var="board">
 					<tr>
-						<td>${board.getSeq()}</td>
-						<td>${board.getTitle()}</td>
+						<td>${board.getSeq_board()}</td>
+						<td><a href="${pageContext.request.contextPath}/detailViewMove.bd?seq_board=${board.getSeq_board()}">${board.getTitle()}</a></td>
 						<td>${board.getWriter()}</td>
 						<td>${board.getWritten_date()}</td>
 						<td>${board.getView_count()}</td>
@@ -91,6 +91,7 @@ tr {
 							function() {
 								location.href = "${pageContext.request.contextPath}/logoutProc.mem";
 							});
+			
 			$('#btn_write')
 					.on(
 							'click',
