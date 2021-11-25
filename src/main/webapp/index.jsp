@@ -79,7 +79,7 @@ padding:6px;
 					});
 					
 					$('#btn_board').on('click',function(){
-							location.href = "${pageContext.request.contextPath}/boardMove.bd";
+							location.href = "${pageContext.request.contextPath}/boardMove.bd?currentPage=1";
 					});
 				})
 			</script>

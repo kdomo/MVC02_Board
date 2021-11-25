@@ -77,7 +77,7 @@ input {
 	<script>
 		$(function() {
 			$('#btn_back').on('click', function() {
-				location.href = "/boardMove.bd";
+				location.href = "/boardMove.bd?currentPage=1";
 			});
 			
 			$('#btn_submit').on('click', function() {

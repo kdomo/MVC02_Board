@@ -156,4 +156,43 @@ public class BoardDAO {
 		
 	}
 	
+	public ArrayList<BoardDTO> getBoardList(int startRange,int endRange){
+		String sql = "select * from (select row_number() over(order by seq_board desc) 순위 ,a.* from tbl_board a) where 순위 BETWEEN ? AND ?";
+		
+		try(Connection con = this.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);){
+			
+			pstmt.setInt(1, startRange);
+			pstmt.setInt(2, endRange);
+			
+			ResultSet rs = pstmt.executeQuery();
+			ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
+			while(rs.next()) {
+				int seq_board = rs.getInt("seq_board");
+				String title = rs.getString("title");
+				String writer = rs.getString("writer");
+				Date written_date = rs.getDate("written_date");
+				int view_count = rs.getInt("view_count");
+				list.add(new BoardDTO(seq_board,title,null,writer,null,written_date,view_count));
+			}
+			return list;
+		}catch (Exception e) {
+			e.printStackTrace();
+		} return null;
+	}
+	
+	public int countAll() {
+		String sql="select count(*) from tbl_board";
+		try( Connection con = this.getConnection();
+				 PreparedStatement pstmt = con.prepareStatement(sql);){
+				
+				ResultSet rs = pstmt.executeQuery();
+				
+				if(rs.next()) return rs.getInt(1);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			return -1;
+	}
+	
 }

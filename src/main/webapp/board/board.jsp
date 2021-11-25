@@ -64,7 +64,8 @@ tr {
 				<c:forEach items="${list}" var="board">
 					<tr>
 						<td>${board.getSeq_board()}</td>
-						<td><a href="${pageContext.request.contextPath}/detailViewMove.bd?seq_board=${board.getSeq_board()}">${board.getTitle()}</a></td>
+						<td><a
+							href="${pageContext.request.contextPath}/detailViewMove.bd?seq_board=${board.getSeq_board()}&currentPage=${naviMap.get('currentPage')}">${board.getTitle()}</a></td>
 						<td>${board.getWriter()}</td>
 						<td>${board.getWritten_date()}</td>
 						<td>${board.getView_count()}</td>
@@ -73,6 +74,28 @@ tr {
 			</tbody>
 
 		</table>
+		<div class="row">
+			<nav class="col" aria-label="Page navigation example">
+				<ul class="pagination d-flex justify-content-center">
+					<c:if test="${ naviMap.get('needPrev') eq true}">
+						<li class="page-item"><a class="page-link" href="/boardMove.bd?currentPage=${naviMap.get('startNavi')-1}"
+							aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+						</a></li>
+					</c:if>
+
+					<c:forEach var="i" begin="${naviMap.get('startNavi')}"
+						end="${naviMap.get('endNavi')}">
+						<li class="page-item"><a class="page-link" href="/boardMove.bd?currentPage=${i}">${i}</a></li>
+					</c:forEach>
+
+					<c:if test="${ naviMap.get('needNext') eq true}">
+						<li class="page-item"><a class="page-link" href="/boardMove.bd?currentPage=${naviMap.get('endNavi')+1}"
+							aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+						</a></li>
+					</c:if>
+				</ul>
+			</nav>
+		</div>
 		<div class="footer row">
 			<div class="col-12">
 				<button type="button" class="btn btn-secondary mb-3" id="btn_home">홈으로</button>
@@ -91,7 +114,7 @@ tr {
 							function() {
 								location.href = "${pageContext.request.contextPath}/logoutProc.mem";
 							});
-			
+
 			$('#btn_write')
 					.on(
 							'click',

@@ -83,6 +83,7 @@ text-align:right;
 			<div class="noneDiv d-none">
 				<input type="text" id="seq_board" value="${dto.getSeq_board()}" name="seq_board">
 				<input type="text" id="writer_id" value="${dto.getWriter_id()}" name="writer_id">
+				<input type="text" id="currentPage" value="${currentPage}" name="currentPage">
 			</div>
 			<c:choose>
 				<c:when test="${loginSession.get('id') ne dto.getWriter_id()}">
@@ -148,7 +149,7 @@ text-align:right;
 					.on(
 							'click',
 							function() {
-								location.href = "${pageContext.request.contextPath}/boardMove.bd";
+								location.href = "${pageContext.request.contextPath}/boardMove.bd?currentPage=${currentPage}";
 							});
 			$('#btn_logout')
 					.on(
@@ -157,7 +158,7 @@ text-align:right;
 								location.href = "${pageContext.request.contextPath}/logoutProc.mem";
 							});
 			$('#btn_cancel').on('click',function(){
-				location.href = "${pageContext.request.contextPath}/detailViewMove.bd?seq_board=${dto.getSeq_board()}";
+				location.href = "${pageContext.request.contextPath}/detailViewMove.bd?seq_board=${dto.getSeq_board()}&currentPage=${currentPage}";
 			});
 		})
 	</script>
